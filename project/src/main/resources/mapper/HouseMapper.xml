@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zsy.bmw.dao.HouseMapper">
+
+    <resultMap id="BaseResultMap" type="com.zsy.bmw.model.House">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="area" property="area" jdbcType="INTEGER"/>
+        <result column="up_time" property="upTime" jdbcType="TIMESTAMP"/>
+        <result column="price" property="price" jdbcType="FLOAT"/>
+        <result column="room" property="room" jdbcType="INTEGER"/>
+        <result column="hall" property="hall" jdbcType="INTEGER"/>
+        <result column="position" property="position" jdbcType="INTEGER"/>
+        <result column="all_pos" property="allPos" jdbcType="INTEGER"/>
+        <result column="agent_id" property="agentId" jdbcType="INTEGER"/>
+
+    </resultMap>
+
+    <select id="getTopHouses" resultMap="BaseResultMap">
+        select
+        *
+        from house
+        order by id desc
+    </select>
+
+
+    <select id="getHeadImg" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select
+        img_url
+        from house_img
+        where house_id = #{houseId}
+        limit 1
+    </select>
+
+    <select id="getHouseById" resultMap="BaseResultMap">
+        SELECT *
+        from house
+        where id = #{houseId}
+        limit 1
+    </select>
+
+    <select id="getHouseByCreator" resultMap="BaseResultMap">
+        SELECT house_id, name, create_time, position, contact, phone
+        from house
+        where creator_name = #{creatorName}
+        order by create_time desc
+    </select>
+
+
+    <select id="getHouseImgs" resultType="java.lang.String">
+        SELECT img_url
+        from house_img
+        where house_id = #{houseId}
+    </select>
+
+    <select id="getHouseIdsByCondition" parameterType="com.zsy.bmw.model.HouseCondition" resultMap="BaseResultMap">
+        SELECT house_id, name, price, position, area, des
+        FROM house where 1=1
+        <if test="price != null">
+            and price &lt;= #{maxPrice} and price &gt;= #{minPrice}
+        </if>
+        <if test="area != null">
+            and area &lt;= #{maxArea} and area &gt;= #{minArea}
+        </if>
+        <if test="region != null">
+            and region = #{region}
+        </if>
+        <if test="type != null">
+            and type = #{type}
+        </if>
+        <if test="dec != null">
+            and "dec" = #{dec}
+        </if>
+        <if test="route != null">
+            and route = #{route}
+        </if>
+        <if test="station != null">
+            and station = #{station}
+        </if>
+    </select>
+
+    <insert id="insertHouse" parameterType="com.zsy.bmw.model.House" useGeneratedKeys="true" keyProperty="houseId">
+        INSERT INTO
+        house(name, creator_name, price, city_id,
+        position, address, area, phone, contact, des,
+        region, type, `dec`, route, station, sale_type, recommend)
+        VALUES (#{name}, #{creatorName}, #{price}, #{cityId},
+        #{position}, #{address}, #{area}, #{phone}, #{contact}, #{des},
+        #{region}, #{type}, #{dec}, #{route}, #{station}, #{saleType}, #{recommend})
+    </insert>
+
+    <insert id="insertHouseImg">
+        INSERT INTO
+        house_imgs(house_id, img)
+        VALUES(#{houseId}, #{imgUrl})
+    </insert>
+
+
+</mapper>
