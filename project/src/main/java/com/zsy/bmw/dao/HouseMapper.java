@@ -1,7 +1,6 @@
 package com.zsy.bmw.dao;
 
 import com.zsy.bmw.model.House;
-import com.zsy.bmw.model.HouseCondition;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -9,7 +8,13 @@ import java.util.List;
 
 public interface HouseMapper {
 
-    List<House> getTopHouses();
+    List<House> getHouseByTime();
+
+    List<House> getHouseByArea(@Param("min") Integer min, @Param("max") Integer max);
+
+    List<House> getHouseByPrice(@Param("min") Integer min, @Param("max") Integer max);
+
+    List<House> getHouseByRoom(@Param("count") Integer count);
 
     String getHeadImg(@Param("houseId") Integer houseId);
 
@@ -19,10 +24,9 @@ public interface HouseMapper {
 
     House getHouseById(@Param("houseId") Integer houseId);
 
+    House getHouseExtendById(@Param("houseId") Integer houseId);
+
     List<String> getHouseImgs(@Param("houseId") Integer houseId);
 
-    List<House> getHouseIdsByCondition(HouseCondition condition);
-
     List<House> getHouseByCreator(@Param("creatorName") String creatorName);
-
 }

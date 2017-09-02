@@ -7,31 +7,105 @@ import com.zsy.bmw.model.HouseCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
 public class HouseService {
+
     @Autowired
     private HouseMapper houseMapper;
-
 
     public List<House> getHouseByCreator(String creatorName) {
         return houseMapper.getHouseByCreator(creatorName);
     }
 
-
-    public List<House> getTopHouse() {
+    public List<House> getHouse(HouseCondition condition) {
         House _house = new House();
         _house.setRows(12);
         executePagination(_house);
-        List<House> houses = houseMapper.getTopHouses();
+        List<House> houses = getHouseByCondition(condition);
         for (House house : houses) {
             house.setHeadImg(houseMapper.getHeadImg(house.getId()));
         }
         return houses;
     }
+
+    private List<House> getHouseByCondition(HouseCondition condition) {
+        List<House> houses;
+        Character areaType = condition.getAreaType();
+        Character priceType = condition.getPriceType();
+        Character roomType = condition.getRoomType();
+
+        if (areaType != null) {
+            houses = getHouseByArea(areaType);
+        } else if (priceType != null) {
+            houses = getHouseByPrice(priceType);
+        } else if (roomType != null) {
+            houses = getHouseByRoom(roomType);
+        } else {
+            houses = houseMapper.getHouseByTime();
+        }
+        return houses;
+    }
+
+    private List<House> getHouseByArea(Character areaType) {
+        Integer min = 0;
+        Integer max = 50;
+        switch (areaType) {
+            case 'b':
+                min = 50;
+                max = 100;
+                break;
+            case 'c':
+                min = 100;
+                max = 10000;
+                break;
+            default:
+                break;
+        }
+        return houseMapper.getHouseByArea(min, max);
+    }
+
+    private List<House> getHouseByPrice(Character priceType) {
+        Integer min = 0;
+        Integer max = 100;
+        switch (priceType) {
+            case 'b':
+                min = 100;
+                max = 150;
+                break;
+            case 'c':
+                min = 150;
+                max = 10000;
+                break;
+            default:
+                break;
+        }
+        return houseMapper.getHouseByPrice(min, max);
+    }
+
+    private List<House> getHouseByRoom(Character roomType) {
+        Integer count = 1;
+        switch (roomType) {
+            case 'b':
+                count = 2;
+                break;
+            case 'c':
+                count = 3;
+                break;
+            case 'd':
+                count = 4;
+                break;
+            case 'f':
+                count = 5;
+                break;
+            default:
+                break;
+        }
+        return houseMapper.getHouseByRoom(count);
+    }
+
 
     public void saveHouse(House house) {
         houseMapper.insertHouse(house);
@@ -43,51 +117,26 @@ public class HouseService {
     public House getHouseDetail(Integer id) {
         House house = houseMapper.getHouseById(id);
         if (house != null) {
+            house = getExtendInfo(house);
+            House houseExt = houseMapper.getHouseExtendById(id);
+            house.setAddress(houseExt.getAddress());
+            house.setYear(houseExt.getYear());
+            house.setComName(houseExt.getComName());
+            house.setDes(houseExt.getDes());
             house.setImgUrls(houseMapper.getHouseImgs(id));
         }
         return house;
     }
 
-    public List<House> getHouseByCondition(HouseCondition condition) {
-        handleCondition(condition);
-//        List<Integer> houseIds = getHouseIdBySolr(condition);
-        List<House> houses = new ArrayList<>();
-//        for (Integer id : houseIds) {
-//            House house = houseMapper.getHouseById(id);
-//            house.setHeadImg(houseMapper.getHeadImg(id));
-//            List<String> tags = new ArrayList<>();
-//            tags.add(house.getRegion());
-//            tags.add(house.getType());
-//            tags.add(house.getDec());
-//            if (!"".equals(house.getRoute())) {
-//                tags.add(house.getRoute());
-//            }
-//            if (!"".equals(house.getStation())) {
-//                tags.add(house.getStation());
-//            }
-//            house.setTagNames(tags);
-//            houses.add(house);
-//        }
-        return houses;
+    private House getExtendInfo(House house) {
+        House houseExt = houseMapper.getHouseExtendById(house.getId());
+        house.setAddress(houseExt.getAddress());
+        house.setYear(houseExt.getYear());
+        house.setComName(houseExt.getComName());
+        house.setDes(houseExt.getDes());
+        return house;
     }
 
-
-    private void handleCondition(HouseCondition condition) {
-        String price = condition.getPrice();
-        if (price != null) {
-            String minPrice = price.split("-")[0];
-            String maxPrice = price.split("-")[1];
-            condition.setMinPrice(Integer.parseInt(minPrice));
-            condition.setMaxPrice(Integer.parseInt(maxPrice));
-        }
-        String area = condition.getArea();
-        if (area != null) {
-            String minArea = area.split("-")[0];
-            String maxArea = area.split("-")[1];
-            condition.setMinArea(Integer.parseInt(minArea));
-            condition.setMaxArea(Integer.parseInt(maxArea));
-        }
-    }
 
     private void executePagination(House house) {
         if (house.getPageNum() != null && house.getRows() != null) {

@@ -21,10 +21,10 @@ public class HouseController {
     @Autowired
     private HouseService houseService;
 
-    @RequestMapping("/tophouses")
-    public Result getTopHouse() {
+    @RequestMapping("/list")
+    public Result getTopHouse(HouseCondition condition) {
         Result result = new Result(Constant.OK_CODE, Constant.OK);
-        result.setData(houseService.getTopHouse());
+        result.setData(houseService.getHouse(condition));
         return result;
     }
 
@@ -43,13 +43,6 @@ public class HouseController {
         return result;
     }
 
-    @RequestMapping("/condition")
-    public Result getHouseByCondition(HouseCondition condition) {
-        List<House> houses = houseService.getHouseByCondition(condition);
-        Result result = new Result(Constant.OK_CODE, Constant.OK);
-        result.setData(houses);
-        return result;
-    }
 
     @RequestMapping("house-by-me")
     public Result getHouseByCreator(@RequestParam("name") String creatorName) {

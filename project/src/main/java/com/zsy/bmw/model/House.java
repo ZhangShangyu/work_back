@@ -13,10 +13,45 @@ public class House extends BaseEntity {
     private Integer allPos;
     private String upTime;
     private Integer agentId;
+    private Integer year;
+    private String comName;
+    private String address;
+    private String des;
 
     private String headImg;
-
     private List<String> imgUrls;
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public String getComName() {
+        return comName;
+    }
+
+    public void setComName(String comName) {
+        this.comName = comName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
 
     public Integer getId() {
         return id;
