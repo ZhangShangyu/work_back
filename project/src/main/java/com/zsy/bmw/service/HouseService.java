@@ -109,6 +109,7 @@ public class HouseService {
 
     public void saveHouse(House house) {
         houseMapper.insertHouse(house);
+        houseMapper.insertHouseExtend(house);
         for (String imgUrl : house.getImgUrls()) {
             houseMapper.insertHouseImg(house.getId(), imgUrl);
         }

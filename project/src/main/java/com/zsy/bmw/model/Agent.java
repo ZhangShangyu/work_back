@@ -5,7 +5,6 @@ public class Agent {
     private Integer id;
     private String name;
     private String password;
-    private Integer roleId;
 
     public Integer getId() {
         return id;
@@ -31,11 +30,4 @@ public class Agent {
         this.password = password;
     }
 
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
 }

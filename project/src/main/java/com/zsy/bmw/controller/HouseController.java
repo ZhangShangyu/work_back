@@ -5,12 +5,15 @@ import com.zsy.bmw.model.HouseCondition;
 import com.zsy.bmw.service.HouseService;
 import com.zsy.bmw.utils.Constant;
 import com.zsy.bmw.utils.Result;
+import com.zsy.bmw.utils.UploadFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -20,6 +23,9 @@ public class HouseController {
 
     @Autowired
     private HouseService houseService;
+
+    @Autowired
+    private UploadFileUtil uploadFileUtil;
 
     @RequestMapping("/list")
     public Result getTopHouse(HouseCondition condition) {
@@ -31,8 +37,7 @@ public class HouseController {
     @RequestMapping("/save")
     public Result uploadHouse(@RequestBody House house) {
         houseService.saveHouse(house);
-        Result result = new Result(Constant.OK_CODE, Constant.OK);
-        return result;
+        return new Result(Constant.OK_CODE, Constant.OK);
     }
 
     @RequestMapping("/detail")
@@ -49,6 +54,23 @@ public class HouseController {
         List<House> houses = houseService.getHouseByCreator(creatorName);
         Result result = new Result(Constant.OK_CODE, Constant.OK);
         result.setData(houses);
+        return result;
+    }
+
+    @RequestMapping(value = "/upload")
+    public Result uploadPic(@RequestParam("file") MultipartFile uploadFile) {
+        if (uploadFile == null || uploadFile.isEmpty()) {
+            return new Result(Constant.ERROR_CODE1, Constant.PARAM_ERROR);
+        }
+        String fileUrl;
+        try {
+            fileUrl = uploadFileUtil.saveUploadedFiles(uploadFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Result(Constant.ERROR_CODE2, Constant.SAVE_FILE_ERROR);
+        }
+        Result result = new Result(Constant.OK_CODE, Constant.OK);
+        result.setData(fileUrl);
         return result;
     }
 

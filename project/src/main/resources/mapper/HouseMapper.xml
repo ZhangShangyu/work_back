@@ -89,19 +89,23 @@
     </select>
 
 
-    <insert id="insertHouse" parameterType="com.zsy.bmw.model.House" useGeneratedKeys="true" keyProperty="houseId">
+    <insert id="insertHouse" parameterType="com.zsy.bmw.model.House" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-        house(name, creator_name, price, city_id,
-        position, address, area, phone, contact, des,
-        region, type, `dec`, route, station, sale_type, recommend)
-        VALUES (#{name}, #{creatorName}, #{price}, #{cityId},
-        #{position}, #{address}, #{area}, #{phone}, #{contact}, #{des},
-        #{region}, #{type}, #{dec}, #{route}, #{station}, #{saleType}, #{recommend})
+        house(name, price, room, hall,
+        position, all_pos, area, agent_id)
+        VALUES (#{name}, #{price}, #{room}, #{hall},
+        #{position}, #{allPos}, #{area}, #{agentId})
+    </insert>
+
+    <insert id="insertHouseExtend" parameterType="com.zsy.bmw.model.House" useGeneratedKeys="true">
+        INSERT INTO
+        house_ext(house_id, year, com_name, address, des)
+        VALUES (#{id}, #{year}, #{comName}, #{address}, #{des})
     </insert>
 
     <insert id="insertHouseImg">
         INSERT INTO
-        house_imgs(house_id, img)
+        house_img(house_id, img_url)
         VALUES(#{houseId}, #{imgUrl})
     </insert>
 

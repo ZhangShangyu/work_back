@@ -7,7 +7,7 @@ public class House extends BaseEntity {
     private String name;
     private Integer area;
     private Integer room;
-    private Integer hall;
+    private Integer hall = 0;
     private Float price;
     private Integer position;
     private Integer allPos;

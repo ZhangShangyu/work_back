@@ -4,8 +4,8 @@ package com.zsy.bmw.utils;
 public class Constant {
 
     public static int OK_CODE = 200;
-    public static int ERROR_CODE1 = 201;
-    public static int ERROR_CODE2 = 202;
+    public static int ERROR_CODE1 = 401;
+    public static int ERROR_CODE2 = 402;
 
     public static String OK = "ok";
     public static String PARAM_ERROR = "parameter error";

@@ -20,6 +20,8 @@ public interface HouseMapper {
 
     void insertHouse(House house);
 
+    void insertHouseExtend(House house);
+
     void insertHouseImg(@Param("houseId") Integer houseId, @Param("imgUrl") String imgUrl);
 
     House getHouseById(@Param("houseId") Integer houseId);
