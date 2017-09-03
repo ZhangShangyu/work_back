@@ -74,6 +74,12 @@
         limit 1
     </select>
 
+    <select id="getHouseByCreator" resultMap="BaseResultMap">
+        SELECT *
+        from house
+        where agent_id = #{agentId}
+    </select>
+
     <select id="getHouseExtendById" resultMap="BaseResultMap">
         SELECT *
         from house_ext

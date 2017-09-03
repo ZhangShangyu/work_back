@@ -30,5 +30,5 @@ public interface HouseMapper {
 
     List<String> getHouseImgs(@Param("houseId") Integer houseId);
 
-    List<House> getHouseByCreator(@Param("creatorName") String creatorName);
+    List<House> getHouseByCreator(@Param("agentId") Integer agentId);
 }

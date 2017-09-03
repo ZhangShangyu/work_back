@@ -50,8 +50,8 @@ public class HouseController {
 
 
     @RequestMapping("house-by-me")
-    public Result getHouseByCreator(@RequestParam("name") String creatorName) {
-        List<House> houses = houseService.getHouseByCreator(creatorName);
+    public Result getHouseByCreator(@RequestParam("id") Integer agentId) {
+        List<House> houses = houseService.getHouseByCreator(agentId);
         Result result = new Result(Constant.OK_CODE, Constant.OK);
         result.setData(houses);
         return result;

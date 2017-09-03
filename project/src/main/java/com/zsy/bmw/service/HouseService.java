@@ -18,8 +18,8 @@ public class HouseService {
     @Autowired
     private HouseMapper houseMapper;
 
-    public List<House> getHouseByCreator(String creatorName) {
-        return houseMapper.getHouseByCreator(creatorName);
+    public List<House> getHouseByCreator(Integer agentId) {
+        return houseMapper.getHouseByCreator(agentId);
     }
 
     public List<House> getHouse(HouseCondition condition) {
