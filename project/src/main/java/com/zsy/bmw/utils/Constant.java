@@ -15,4 +15,6 @@ public class Constant {
 
     public static String SAVE_FILE_ERROR = "save file error";
 
+    public static String IMG_PREFIX = "http://118.89.161.69/";
+
 }

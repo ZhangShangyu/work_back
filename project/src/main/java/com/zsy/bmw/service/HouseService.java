@@ -4,9 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.zsy.bmw.dao.HouseMapper;
 import com.zsy.bmw.model.House;
 import com.zsy.bmw.model.HouseCondition;
+import com.zsy.bmw.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,9 +28,22 @@ public class HouseService {
         executePagination(_house);
         List<House> houses = getHouseByCondition(condition);
         for (House house : houses) {
-            house.setHeadImg(houseMapper.getHeadImg(house.getId()));
+            String imgName = houseMapper.getHeadImg(house.getId());
+            house.setHeadImg(handleHouseImgUrl(imgName));
         }
         return houses;
+    }
+
+    private String handleHouseImgUrl(String imgName) {
+        String imgUrl = "";
+        if (imgName != null) {
+            if (imgName.contains("http")) {
+                return imgName;
+            } else {
+                return Constant.IMG_PREFIX + imgName;
+            }
+        }
+        return imgUrl;
     }
 
     private List<House> getHouseByCondition(HouseCondition condition) {
@@ -124,9 +139,18 @@ public class HouseService {
             house.setYear(houseExt.getYear());
             house.setComName(houseExt.getComName());
             house.setDes(houseExt.getDes());
-            house.setImgUrls(houseMapper.getHouseImgs(id));
+            house.setImgUrls(getHouseImgUrlList(house.getId()));
         }
         return house;
+    }
+
+    private List<String> getHouseImgUrlList(Integer houseId) {
+        List<String> result = new ArrayList<>();
+        List<String> imgNames = houseMapper.getHouseImgs(houseId);
+        for (String imgName : imgNames) {
+            result.add(handleHouseImgUrl(imgName));
+        }
+        return result;
     }
 
     private House getExtendInfo(House house) {

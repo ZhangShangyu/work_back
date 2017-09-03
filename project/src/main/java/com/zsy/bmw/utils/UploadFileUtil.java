@@ -26,7 +26,7 @@ public class UploadFileUtil {
         String fileName = DateUtil.getNowTime() + "-" + file.getOriginalFilename();
         Path path = Paths.get(uploadPath + fileName);
         Files.write(path, bytes);
-        return imgUrl + fileName;
+        return fileName;
     }
 
 }
