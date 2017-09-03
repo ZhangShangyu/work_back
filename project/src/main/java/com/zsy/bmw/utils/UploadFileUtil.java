@@ -15,9 +15,6 @@ public class UploadFileUtil {
     @Value("${upload.path}")
     private String uploadPath;
 
-    @Value("${img.url}")
-    private String imgUrl;
-
     public String saveUploadedFiles(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             return "";
