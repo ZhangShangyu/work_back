@@ -41,7 +41,7 @@
         select
         *
         from house
-        where price &gt; #{min} and area &lt;= #{max}
+        where price &gt; #{min} and price &lt;= #{max}
         order by id desc
     </select>
 
