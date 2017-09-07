@@ -25,3 +25,4 @@ nbdist/
 *rebel.xml
 
 *upload/
+*.log

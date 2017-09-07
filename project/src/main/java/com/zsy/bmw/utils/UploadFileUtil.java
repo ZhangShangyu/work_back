@@ -16,10 +16,7 @@ public class UploadFileUtil {
     private String uploadPath;
 
     public String saveUploadedFiles(MultipartFile file) throws IOException {
-        System.out.println("request save");
-
         if (file.isEmpty()) {
-            System.out.println("request empty");
             return "";
         }
         byte[] bytes = file.getBytes();

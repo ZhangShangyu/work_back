@@ -6,6 +6,8 @@ import com.zsy.bmw.service.HouseService;
 import com.zsy.bmw.utils.Constant;
 import com.zsy.bmw.utils.Result;
 import com.zsy.bmw.utils.UploadFileUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,8 @@ import java.util.List;
 @RequestMapping(value = "/house")
 public class HouseController {
 
+    private static Logger logger = LoggerFactory.getLogger(HouseController.class);
+
     @Autowired
     private HouseService houseService;
 
@@ -29,22 +33,29 @@ public class HouseController {
 
     @RequestMapping("/list")
     public Result getTopHouse(HouseCondition condition) {
+        logger.info("house list request", condition);
         Result result = new Result(Constant.OK_CODE, Constant.OK);
         result.setData(houseService.getHouse(condition));
+        logger.info("house list response", result);
         return result;
     }
 
     @RequestMapping("/save")
     public Result uploadHouse(@RequestBody House house) {
+        logger.info("house save request", house);
         houseService.saveHouse(house);
-        return new Result(Constant.OK_CODE, Constant.OK);
+        Result result = new Result(Constant.OK_CODE, Constant.OK);
+        logger.info("house save response", result);
+        return result;
     }
 
     @RequestMapping("/detail")
     public Result getHouseDetail(@RequestParam("id") Integer houseId) {
+        logger.info("house detail request", houseId);
         House house = houseService.getHouseDetail(houseId);
         Result result = new Result(Constant.OK_CODE, Constant.OK);
         result.setData(house);
+        logger.info("house detail response", result);
         return result;
     }
 
@@ -59,22 +70,22 @@ public class HouseController {
 
     @RequestMapping(value = "/upload")
     public Result uploadPic(@RequestParam("file") MultipartFile uploadFile) {
-        System.out.println("request enter");
+        logger.info("img upload request");
         if (uploadFile == null || uploadFile.isEmpty()) {
-            System.out.println("request null");
+            logger.info("img upload response: not img file");
             return new Result(Constant.ERROR_CODE1, Constant.PARAM_ERROR);
         }
         String fileUrl;
         try {
             fileUrl = uploadFileUtil.saveUploadedFiles(uploadFile);
         } catch (IOException e) {
-            System.out.println("request exception");
             e.printStackTrace();
+            logger.info("img upload response: upload exception");
             return new Result(Constant.ERROR_CODE2, Constant.SAVE_FILE_ERROR);
         }
         Result result = new Result(Constant.OK_CODE, Constant.OK);
         result.setData(fileUrl);
-        System.out.println("request end  " + fileUrl);
+        logger.info("img upload response", result);
         return result;
     }
 
