@@ -59,18 +59,22 @@ public class HouseController {
 
     @RequestMapping(value = "/upload")
     public Result uploadPic(@RequestParam("file") MultipartFile uploadFile) {
+        System.out.println("request enter");
         if (uploadFile == null || uploadFile.isEmpty()) {
+            System.out.println("request null");
             return new Result(Constant.ERROR_CODE1, Constant.PARAM_ERROR);
         }
         String fileUrl;
         try {
             fileUrl = uploadFileUtil.saveUploadedFiles(uploadFile);
         } catch (IOException e) {
+            System.out.println("request exception");
             e.printStackTrace();
             return new Result(Constant.ERROR_CODE2, Constant.SAVE_FILE_ERROR);
         }
         Result result = new Result(Constant.OK_CODE, Constant.OK);
         result.setData(fileUrl);
+        System.out.println("request end  " + fileUrl);
         return result;
     }
 
