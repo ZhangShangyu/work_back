@@ -17,4 +17,6 @@ public class Constant {
 
     public static String IMG_PREFIX = "http://118.89.161.69/";
 
+    public static Integer HOUSE_ROWS = 12;
+
 }

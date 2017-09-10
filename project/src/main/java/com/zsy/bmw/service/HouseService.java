@@ -6,6 +6,7 @@ import com.zsy.bmw.model.House;
 import com.zsy.bmw.model.HouseCondition;
 import com.zsy.bmw.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,14 +19,17 @@ public class HouseService {
     @Autowired
     private HouseMapper houseMapper;
 
+    @Autowired
+    private RedisService redisService;
+
     public List<House> getHouseByCreator(Integer agentId) {
         return houseMapper.getHouseByCreator(agentId);
     }
 
+
+    @Cacheable(value = "houseList", keyGenerator = "keyGenerator")
     public List<House> getHouse(HouseCondition condition) {
-        House _house = new House();
-        _house.setRows(12);
-        executePagination(_house);
+        executePagination(condition.getPageNum());
         List<House> houses = getHouseByCondition(condition);
         for (House house : houses) {
             String imgName = houseMapper.getHeadImg(house.getId());
@@ -130,7 +134,9 @@ public class HouseService {
         }
     }
 
+    @Cacheable(value = "houseDetail", keyGenerator = "keyGenerator")
     public House getHouseDetail(Integer id) {
+
         House house = houseMapper.getHouseById(id);
         if (house != null) {
             house = getExtendInfo(house);
@@ -163,10 +169,8 @@ public class HouseService {
     }
 
 
-    private void executePagination(House house) {
-        if (house.getPageNum() != null && house.getRows() != null) {
-            PageHelper.startPage(house.getPageNum(), house.getRows());
-        }
+    private void executePagination(Integer pageNum) {
+        PageHelper.startPage(pageNum, Constant.HOUSE_ROWS);
     }
 
 }
