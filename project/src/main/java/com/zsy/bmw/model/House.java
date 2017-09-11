@@ -4,19 +4,19 @@ import java.util.List;
 
 public class House extends BaseEntity {
     private Integer id;
-    private String name;
-    private Integer area;
-    private Integer room;
+    private String name = "";
+    private Integer area = 0;
+    private Integer room = 0;
     private Integer hall = 0;
-    private Float price;
-    private Integer position;
-    private Integer allPos;
+    private Float price = 0f;
+    private Integer position = 0;
+    private Integer allPos = 0;
     private String upTime;
-    private Integer agentId;
-    private Integer year;
-    private String comName;
-    private String address;
-    private String des;
+    private Integer agentId = 0;
+    private Integer year = 0;
+    private String comName = "";
+    private String address = "";
+    private String des = "";
 
     private String headImg;
     private List<String> imgUrls;

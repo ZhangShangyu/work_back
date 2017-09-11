@@ -34,7 +34,7 @@
         *
         from house
         where area &gt; #{min} and area &lt;= #{max}
-        order by id desc
+        order by ${sortKey}
     </select>
 
     <select id="getHouseByPrice" resultMap="BaseResultMap">
@@ -42,7 +42,7 @@
         *
         from house
         where price &gt; #{min} and price &lt;= #{max}
-        order by id desc
+        order by ${sortKey}
     </select>
 
     <select id="getHouseByRoom" resultMap="BaseResultMap">
@@ -56,7 +56,7 @@
         <if test="count == 5">
             and room &gt;= #{count}
         </if>
-        order by id desc
+        order by ${sortKey}
     </select>
 
     <select id="getHeadImg" parameterType="java.lang.Integer" resultType="java.lang.String">

@@ -10,11 +10,11 @@ public interface HouseMapper {
 
     List<House> getHouseByTime();
 
-    List<House> getHouseByArea(@Param("min") Integer min, @Param("max") Integer max);
+    List<House> getHouseByArea(@Param("min") Integer min, @Param("max") Integer max, @Param("sortKey") String sortKey);
 
-    List<House> getHouseByPrice(@Param("min") Integer min, @Param("max") Integer max);
+    List<House> getHouseByPrice(@Param("min") Integer min, @Param("max") Integer max, @Param("sortKey") String sortKey);
 
-    List<House> getHouseByRoom(@Param("count") Integer count);
+    List<House> getHouseByRoom(@Param("count") Integer count, @Param("sortKey") String sortKey);
 
     String getHeadImg(@Param("houseId") Integer houseId);
 
