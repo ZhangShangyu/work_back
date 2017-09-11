@@ -193,7 +193,7 @@ public class HouseService {
             for (int i = 0; i < count; ++i) {
                 House house = getTestHouse();
                 saveHouse(house);
-                if (i % 10 == 0) {
+                if (i % 1000 == 0) {
                     logger.info("finish " + i);
                 }
             }
