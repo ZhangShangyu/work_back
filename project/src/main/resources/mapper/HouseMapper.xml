@@ -26,7 +26,7 @@
         select
         *
         from house
-        order by id desc
+        order by ${sortKey}
     </select>
 
     <select id="getHouseByArea" resultMap="BaseResultMap">

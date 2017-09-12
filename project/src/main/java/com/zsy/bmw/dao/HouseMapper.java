@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface HouseMapper {
 
-    List<House> getHouseByTime();
+    List<House> getHouseByTime(@Param("sortKey") String sortKey);
 
     List<House> getHouseByArea(@Param("min") Integer min, @Param("max") Integer max, @Param("sortKey") String sortKey);
 

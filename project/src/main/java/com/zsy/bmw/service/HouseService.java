@@ -57,16 +57,7 @@ public class HouseService {
         Character areaType = condition.getAreaType();
         Character priceType = condition.getPriceType();
         Character roomType = condition.getRoomType();
-        Character sortType = condition.getSortType();
-
-        String sortKey = "id desc";
-        if (sortType != null) {
-            if (sortType == 'b') {
-                sortKey = "area desc";
-            } else if (sortType == 'c') {
-                sortKey = "price desc";
-            }
-        }
+        String sortKey = getSortKey(condition.getSortType());
 
         if (areaType != null) {
             houses = getHouseByArea(areaType, sortKey);
@@ -75,9 +66,27 @@ public class HouseService {
         } else if (roomType != null) {
             houses = getHouseByRoom(roomType, sortKey);
         } else {
-            houses = houseMapper.getHouseByTime();
+            houses = houseMapper.getHouseByTime(sortKey);
         }
         return houses;
+    }
+
+    private String getSortKey(Character sortType) {
+        String sortKey = "id desc";
+        if (sortType != null) {
+            if (sortType == 'b') {
+                sortKey = "area desc";
+            } else if (sortType == 'c') {
+                sortKey = "price desc";
+            } else if (sortType == 'd') {
+                sortKey = "id asc";
+            } else if (sortType == 'f') {
+                sortKey = "area asc";
+            } else if (sortType == 'e') {
+                sortKey = "price asc";
+            }
+        }
+        return sortKey;
     }
 
     private List<House> getHouseByArea(Character areaType, String sortKey) {
