@@ -80,9 +80,9 @@ public class HouseService {
                 sortKey = "price desc";
             } else if (sortType == 'd') {
                 sortKey = "id asc";
-            } else if (sortType == 'f') {
-                sortKey = "area asc";
             } else if (sortType == 'e') {
+                sortKey = "area asc";
+            } else if (sortType == 'f') {
                 sortKey = "price asc";
             }
         }
