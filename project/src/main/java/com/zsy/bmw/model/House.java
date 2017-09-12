@@ -21,6 +21,7 @@ public class House extends BaseEntity {
     private String headImg;
     private List<String> imgUrls;
 
+
     public Integer getYear() {
         return year;
     }
